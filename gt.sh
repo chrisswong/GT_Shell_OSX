@@ -14,16 +14,23 @@ then
 	echo "currently support : objc, swift, android"
 	echo "============================"
 else 
-	if [ "$1" == "rn" ];
-	then 
-		if [ -z "$2" ]; then
-			echo "grab all commit message from last tag"
-		else
-			if [ -z "$3" ]; then
-				echo "startTag = $2"
-			else 
-				echo "startTag = $2 / endTag : $3"
-			fi 
+	if [ "$1" == "rn" ]; then
+		if [[ -n $(git tag) ]]; then
+			if [ -z "$2" ]; then
+				GIT_RELEASE_VERSION=$(git describe --abbrev=0)
+				git log --pretty=format:%s ${GIT_RELEASE_VERSION}.. --no-merges | sort -d
+			else
+				if [ -z "$3" ]; then
+					GIT_RELEASE_VERSION=$($2)
+					git log --pretty=format:%s ${GIT_RELEASE_VERSION}.. --no-merges | sort -d
+				else 
+					GIT_RELEASE_VERSION = $($2)
+					GIT_RELEASE_VERSION_ENDING = $($3)
+					git log --pretty=format:%s ${GIT_RELEASE_VERSION}..${GIT_RELEASE_VERSION_ENDING} --no-merges | sort -d
+				fi 
+			fi
+		else 
+			echo "no tags found"
 		fi
 	elif [ "$1" == "ig" ];
 	then
