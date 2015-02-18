@@ -5,18 +5,19 @@ then
 	echo "Usage : "
 	echo "============================"
 	echo "Generating Release Notes:"
+	echo "gt rn get all commit message from last tag found by git describe"
 	echo "gt rn <tag> get all commit message from git <tag>"
 	echo "gt rn <startTag> <endTag> get all commit message from git <startTag> to <endTag>"
 	echo "============================"
 	echo "Generating gitignore:"
 	echo "gt ig <language>"
-	echo "currently support : objc, swift"
+	echo "currently support : objc, swift, android"
 	echo "============================"
 else 
 	if [ "$1" == "rn" ];
 	then 
 		if [ -z "$2" ]; then
-			echo "Missing tag"
+			echo "grab all commit message from last tag"
 		else
 			if [ -z "$3" ]; then
 				echo "startTag = $2"
@@ -35,6 +36,9 @@ else
 			elif [ "$2" == "swift" ]; then
 				echo "Generating $2 git ignore file on current directory..."	
 				curl https://raw.githubusercontent.com/github/gitignore/master/Swift-C.gitignore >> .gitignore
+			elif [ "$2" == "android" ]; then
+				echo "Generating $2 git ignore file on current directory..."	
+				curl https://raw.githubusercontent.com/github/gitignore/master/Android.gitignore >> .gitignore
 			else
 				echo "unknown language"
 			fi
